@@ -1,0 +1,59 @@
+# Workflow to automatically create deliverables
+name: Build on push
+
+on:
+  [push, pull_request]
+
+jobs:
+  build:
+    name: Assembling artifacts
+    runs-on: ubuntu-20.04
+
+    # Note, to satisfy the asset library we need to make sure our zip files have a root folder
+    # this is why we checkout into demo/godot_rokoko_tracker
+    # and build plugin/godot_rokoko_tracker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: demo/godot_rokoko_tracker
+      - name: Create Godot Rokoko Tracker plugin
+        run: |
+          mkdir plugin
+          mkdir plugin/godot_rokoko_tracker
+          mkdir plugin/godot_rokoko_tracker/addons
+          cp -r demo/godot_rokoko_tracker/addons/godot_rokoko_tracker plugin/godot_rokoko_tracker/addons
+          cp demo/godot_rokoko_tracker/LICENSE plugin/godot_rokoko_tracker/addons/godot_rokoko_tracker
+          cp demo/godot_rokoko_tracker/CONTRIBUTORS.md plugin/godot_rokoko_tracker/addons/godot_rokoko_tracker
+          cp demo/godot_rokoko_tracker/VERSIONS.md plugin/godot_rokoko_tracker/addons/godot_rokoko_tracker
+          rm -rf demo/godot_rokoko_tracker/.git
+          rm -rf demo/godot_rokoko_tracker/.github
+      - name: Create Godot Rokoko Tracker library artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: godot_rokoko_tracker
+          path: |
+            plugin
+      - name: Create Godot Rokoko Tracker demo artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: godot_rokoko_tracker_demo
+          path: |
+            demo
+      - name: Zip asset
+        run: |
+          cd plugin
+          zip -qq -r ../godot_rokoko_tracker.zip godot_rokoko_tracker
+          cd ../demo
+          zip -qq -r ../godot_rokoko_tracker_demo.zip godot_rokoko_tracker
+          cd ..
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+      - name: Create and upload asset
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "godot_rokoko_tracker.zip,godot_rokoko_tracker_demo.zip"
+          omitNameDuringUpdate: true
+          omitBodyDuringUpdate: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
