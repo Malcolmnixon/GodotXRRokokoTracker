@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7eb3t3roart7"]
+
+[ext_resource type="Script" path="res://addons/godot_rokoko_tracker/rokoko_tracker.gd" id="1_sbkji"]
+
+[node name="RokokoTracker" type="Node"]
+script = ExtResource("1_sbkji")
