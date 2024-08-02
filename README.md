@@ -7,7 +7,7 @@
 
 This repository contains a Rokoko packet decoder for Godot that can drive avatars through the XR Tracker system.
 
-![Rokoko Tracker Preview](/docs/rokoko_preview.png)
+[<img src="docs/rokoko_preview.png">](https://youtu.be/gTYpqJJkYgM "Rokoko Tracker Preview")
 
 ## Versions
 
