@@ -297,7 +297,7 @@ const JOINT_MAPPING : Array[Dictionary] = [
 	{
 		body = XRBodyTracker.JOINT_LEFT_LOWER_ARM,
 		native = Joint.LEFT_LOWER_ARM,
-		roll = Quaternion(1.0, 0.0, 0.0, 0.0)
+		roll = Quaternion(-0.7071068, 0.0, 0.7071068, 0.0)
 	},
 	{
 		body = XRBodyTracker.JOINT_LEFT_HAND,
@@ -322,7 +322,7 @@ const JOINT_MAPPING : Array[Dictionary] = [
 	{
 		body = XRBodyTracker.JOINT_RIGHT_LOWER_ARM,
 		native = Joint.RIGHT_LOWER_ARM,
-		roll = Quaternion(1.0, 0.0, 0.0, 0.0)
+		roll = Quaternion(0.7071068, 0.0, 0.7071068, 0.0)
 	},
 	{
 		body = XRBodyTracker.JOINT_RIGHT_HAND,
